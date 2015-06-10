@@ -1,0 +1,28 @@
+{
+  "name": "feignjs",
+  "version": "0.0.1",
+  "description": "feign for js",
+  "main": "feign.js",
+  "scripts": {
+    "test": "nodeunit tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/warmuuh/feignjs.git"
+  },
+  "keywords": [
+    "feign",
+    "rest",
+    "descriptive",
+    "client"
+  ],
+  "author": "Peter Mucha",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/warmuuh/feignjs/issues"
+  },
+  "homepage": "https://github.com/warmuuh/feignjs#readme",
+  "dependencies": {
+    "args-js": "^0.10.6"
+  }
+}
