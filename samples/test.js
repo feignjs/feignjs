@@ -5,7 +5,8 @@ var FeignRequest = require('feignjs-request');
 
 
 var restDescription = {
-	getUsers: 'GET /users'
+	getUsers: 'GET /users',
+	getUser: 'GET /users/{id}',
 };
 
 
@@ -13,7 +14,7 @@ var client = feign.builder()
 				.client(new FeignRequest())
 				.target(restDescription, 'http://jsonplaceholder.typicode.com');
 				
-client.getUsers()
+client.getUser({id: 1})
 .then(console.log)
 .catch(console.error);
 
