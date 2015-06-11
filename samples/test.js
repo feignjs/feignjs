@@ -5,20 +5,20 @@ var FeignRequest = require('feignjs-request');
 
 
 var restDescription = {
-	getUsers: 'GET /users',
-	getUser: 'GET /users/{id}',
-	createPost: 'POST /posts',
-	modifyPost: 'PUT /posts/{id}',
+  getUsers: 'GET /users',
+  getUser: 'GET /users/{id}',
+  createPost: 'POST /posts',
+  modifyPost: 'PUT /posts/{id}',a
   modifyUserPost: 'PUT /users/{userId}/posts/{postId}'
 };
 
 
 var client = feign.builder()
-				.client(new FeignRequest({debug: false}))
+        .client(new FeignRequest({debug: false}))
         .requestInterceptor({apply:function(req){
           console.log(req.options.method, req.options.uri, "body:", req.parameters);
         }})
-				.target(restDescription, 'http://jsonplaceholder.typicode.com');
+        .target(restDescription, 'http://jsonplaceholder.typicode.com');
 
 
 //GET
@@ -26,7 +26,7 @@ var client = feign.builder()
 //same:
 //client.getUser(1)
 
-client.getUser(1, {c: 1})			
+client.getUser(1, {c: 1})
 .then(console.log)
 .catch(console.error);
 
@@ -46,7 +46,7 @@ client.createPost({
 
 
 client.modifyPost(1, [{
-	  id: 1,
+    id: 1,
     title: 'foo',
     body: 'bar',
     userId: 1
@@ -55,7 +55,7 @@ client.modifyPost(1, [{
 .catch(console.error);
 
 client.modifyUserPost(1, 1, [{
-	  id: 1,
+    id: 1,
     title: 'foo',
     body: 'bar',
     userId: 1
@@ -64,7 +64,7 @@ client.modifyUserPost(1, 1, [{
 .catch(console.error);
 
 client.modifyUserPost({userId: 1, postId:1}, [{
-	  id: 1,
+    id: 1,
     title: 'foo',
     body: 'bar',
     userId: 1
