@@ -1,67 +1,64 @@
 var feign = require("../feign");
 
 
+function MockClient(baseUrl, parameters, options, test){
+  this.baseUrl = baseUrl;
+  this.parameters = parameters;
+  this.options = options;
+  this.test = test;
+} 
 
-var mockClient = {
-  requestLog: [],
-  request: function(req){
-    this.requestLog.push(req);
-    return Promise.resolve();
-  },
-
-  clear: function(baseUrl, requestOptions, parameters){
-    this.requestLog = [];
+MockClient.prototype.request = function(requestData){
+  try{
+    this.test.equal(requestData.baseUrl, this.baseUrl);
+    this.test.deepEqual(requestData.parameters, this.parameters);
+    this.test.deepEqual(requestData.options, this.options);
+    return Promise.resolve({raw:{}, body:{}});
+  } catch (e){
+    return Promise.reject(e);
   }
 };
 
 
 
 module.exports = {
-  setUp: function (callback) {
-        mockClient.clear();
-        callback();
-    },
+
   testClientCall: function(test){
+    
+    var verificationClient = new MockClient("http://base/", null, {method: 'GET', uri:'/users'}, test);
+    
     var client = feign.builder()
-      .client(mockClient)
+      .client(verificationClient)
       .target({getUsers: 'GET /users'}, "http://base/");
 
     client.getUsers()
     .then(function(){
-      test.equal(mockClient.requestLog.length, 1, "there should be only one call for one method call");
-      var requestData = mockClient.requestLog[0];
-      test.equal(requestData.baseUrl, "http://base/");
-      test.deepEqual(requestData.parameters, null);
-      test.deepEqual(requestData.options, {method: 'GET', uri:'/users'});
       test.done();
-    });
+    }, console.error);
   },
 
 
   testCallbackBasedBuilder: function(test){
-    var client = feign.builder({promise:false})
-      .client(mockClient)
+     var verificationClient = new MockClient("http://base/", null, {method: 'GET', uri:'/users'}, test);
+     var client = feign.builder({promise:false})
+      .client(verificationClient)
       .target({getUsers: 'GET /users'}, "http://base/");
 
     client.getUsers(function(err, result){
-      test.equal(mockClient.requestLog.length, 1, "there should be only one call for one method call");
+      test.equal(err, null);
       test.done();
     });
   },
 
   testPathParameters: function(test){
+    var verificationClient = new MockClient("http://base/", null, {method: 'GET', uri:'/users/1'}, test);
     var client = feign.builder()
-      .client(mockClient)
+      .client(verificationClient)
       .target({getUser: 'GET /users/{id}'}, "http://base/");
 
     client.getUser({id: 1})
     .then(function(){
-      test.equal(mockClient.requestLog.length, 1, "path parameters should be inserted into url and removed from parameter-object");
-      var requestData = mockClient.requestLog[0];
-      test.equal(requestData.baseUrl, "http://base/");
-      test.deepEqual(requestData.parameters, null);
-      test.deepEqual(requestData.options, {method: 'GET', uri:'/users/1'});
       test.done();
-    });
+    }, console.error);
   },
 };

@@ -7,6 +7,7 @@ var FeignRequest = require('feignjs-request');
 var restDescription = {
   getUsers: 'GET /users',
   getUser: 'GET /users/{id}',
+  getUserC: 'GET /users/{id}{?c}',
   createPost: 'POST /posts',
   modifyPost: 'PUT /posts/{id}',
   modifyUserPost: 'PUT /users/{userId}/posts/{postId}'
@@ -30,11 +31,15 @@ client.getUser(1, {c: 1})
 .then(console.log)
 .catch(console.error);
 
+client.getUserC({c:1, id:1}, {e:6})
+.then(console.log)
+.catch(console.error);
 
 /*
 //POST
 
  */
+ 
 client.createPost({
     title: 'foo',
     body: 'bar',
@@ -46,7 +51,7 @@ client.createPost({
 
 
 client.modifyPost(1, [{
-    id: 1,
+    id: 155,
     title: 'foo',
     body: 'bar',
     userId: 1
