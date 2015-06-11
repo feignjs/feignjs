@@ -8,7 +8,7 @@ var restDescription = {
   getUsers: 'GET /users',
   getUser: 'GET /users/{id}',
   createPost: 'POST /posts',
-  modifyPost: 'PUT /posts/{id}',a
+  modifyPost: 'PUT /posts/{id}',
   modifyUserPost: 'PUT /users/{userId}/posts/{postId}'
 };
 
@@ -24,7 +24,7 @@ var client = feign.builder()
 //GET
 
 //same:
-//client.getUser(1)
+//client.getUser({id:1}, {c: 1})
 
 client.getUser(1, {c: 1})
 .then(console.log)
