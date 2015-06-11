@@ -8,7 +8,7 @@ for node. It is based on the java-implementation of feign [from netflix](https:/
 Feign.js  allows to define a rest-client api and staying independent of a specific client-implementation.
 
 Clients supported:
-* [Request](https://github.com/request/request) (module: `feignjs-request`)
+* [Request](https://github.com/request/request) (`feignjs-request` [module](https://github.com/feignjs/feignjs-request))
  
  
 ## Installation
