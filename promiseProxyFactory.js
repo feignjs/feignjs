@@ -1,11 +1,8 @@
-var Args = require("args-js");
 
 function createProxyFunction(baseUrl, requestObj) {
-	return function (parameters) {
-		var args = Args([
-				{ parameters: Args.OBJECT | Args.Optional, _default: {} }
-			], arguments);
-		return requestObj.executeRequest(baseUrl, args.parameters);
+	return function () {
+		var args = Array.prototype.slice.call(arguments);
+		return requestObj.executeRequest(baseUrl, args);
 	};
 };
 

@@ -1,8 +1,6 @@
 
 var Args = require("args-js");
-var pathParameterInterceptor = require("./pathParameter");
 var Request = require("./request");
-var _ = require("lodash");
 var promiseProxyFactory = require("./promiseProxyFactory");
 var cbProxyFactory = require("./callbackProxyFactory");
 
@@ -87,7 +85,7 @@ module.exports = {
 		var builder = new FeignBuilder();
 		
 		builder.proxyFactory(args.promise ? promiseProxyFactory : cbProxyFactory);
-		builder.requestInterceptor(pathParameterInterceptor);
+		//builder.requestInterceptor(pathParameterInterceptor);
 		
 		return builder;
 	}

@@ -1,17 +1,13 @@
-var Args = require("args-js");
-
 
 function createCbProxyFunction(baseUrl, requestObj) {
-	return function (parameters, callback) {
-		var args = Args([
-			{ parameters: Args.OBJECT | Args.Optional, _default: {} },
-			{ callback: Args.FUNCTION | Args.Required }
-		], arguments);
-		requestObj.executeRequest(baseUrl, args.parameters)
+	return function () {
+		var args = Array.prototype.slice.call(arguments);
+		var callback = args.pop();
+		requestObj.executeRequest(baseUrl, args)
 			.then(function (result) {
-				args.callback(null, result);
+				callback(null, result);
 			}, function (error) {
-				args.callback(error, null);
+				callback(error, null);
 			});
 	};
 };
