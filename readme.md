@@ -37,7 +37,7 @@ var client = feign.builder()
 
 client.getUser(1).then(console.log)
 ```
-see more examples in the (samples-folder)[samples]
+see more examples in the [samples-folder](samples)
 
 
 ## Features:
