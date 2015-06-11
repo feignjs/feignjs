@@ -1,6 +1,12 @@
 
 var Args = require("args-js");
 var pathParameterInterceptor = require("./pathParameter");
+var Request = require("./request");
+var _ = require("lodash");
+var promiseProxyFactory = require("./promiseProxyFactory");
+var cbProxyFactory = require("./callbackProxyFactory");
+
+
 
 function FeignBuilder() {
 	this.requestInterceptors = [];
@@ -11,6 +17,11 @@ FeignBuilder.prototype.client = function (feignClient) {
 	return this;
 };
 
+
+FeignBuilder.prototype.proxyFactory = function (proxyFactory) {
+	this.proxyFactory = proxyFactory;
+	return this;
+};
 
 FeignBuilder.prototype.requestInterceptor = function (requestInterceptor) {
 	this.requestInterceptors.push(requestInterceptor);
@@ -24,22 +35,14 @@ FeignBuilder.prototype.target = function (apiDescription, baseUrl) {
 };
 
 
-FeignBuilder.prototype._createProxyFunction = function (baseUrl, options) {
-	var _this = this;
-	return function (parameters) {
-		var args = Args([
-				{ parameters: Args.OBJECT | Args.Optional, _default: {} }
-			], arguments);
-		return _this._executeRequest(baseUrl, options, args.parameters);
-		
-	};
-};
+
 
 FeignBuilder.prototype._createApi = function (apiDescription, baseUrl) {
 	var api = {};
 	for (var key in apiDescription) {
 		var options = this._getOptionsFromDescription(apiDescription, key);
-		api[key] = this._createProxyFunction(baseUrl, options);
+		var requestObj = new Request(options, this.feignClient, this.requestInterceptors); 
+		api[key] = this.proxyFactory(baseUrl, requestObj);
 	};
 	return api;
 };
@@ -57,50 +60,21 @@ FeignBuilder.prototype._getOptionsFromDescription = function (apiDescription, ke
 			method: matches[1],
 			uri: matches[2]
 		};
-		
+	} else {
+		var parsedOptions = Args([
+			{ method: Args.STRING | Args.Optional, _default: 'GET' },
+			{ uri: Args.STRING | Args.Required }
+		],  [options]);
+		options = {method: parsedOptions.method, uri: parsedOptions.uri};
 	}
 	
 	return options;
 };
 
-FeignBuilder.prototype._executeRequest = function (baseUrl, options, parameters) {
-	
-	var request = {
-		baseUrl: baseUrl,
-		options: options,
-		parameters: parameters
-	};
-	
-	this._processInterceptors(request);
-	
-	return this.feignClient.request(request);
-}
 
-FeignBuilder.prototype._processInterceptors = function (request) {
-	for(var i = 0; i < this.requestInterceptors.length; ++i){
-		this.requestInterceptors[i].apply(request);
-	}	
-}
 
-function FeignCallbackBasedBuilder() {
-}
 
-FeignCallbackBasedBuilder.prototype = new FeignBuilder();
-FeignCallbackBasedBuilder.prototype._createProxyFunction = function (baseUrl, options) {
-	var _this = this;
-	return function (parameters, callback) {
-		var args = Args([
-			{ parameters: Args.OBJECT | Args.Optional, _default: {} },
-			{ callback: Args.FUNCTION | Args.Required }
-		], arguments);
-		_this._executeRequest(baseUrl, options, args.parameters)
-			.then(function (result) {
-				args.callback(null, result);
-			}, function (error) {
-				args.callback(error, null);
-			});
-	};
-};
+
 
 
 
@@ -110,14 +84,10 @@ module.exports = {
 			{ promise: Args.BOOL | Args.Optional, _default: true }
 		], arguments);
 		
-		var builder = null;
-		if (args.promise) {
-			builder = new FeignBuilder();
-		} else {
-			builder = new FeignCallbackBasedBuilder();
-		}
+		var builder = new FeignBuilder();
 		
-		builder.requestInterceptor(pathParameterInterceptor)
+		builder.proxyFactory(args.promise ? promiseProxyFactory : cbProxyFactory);
+		builder.requestInterceptor(pathParameterInterceptor);
 		
 		return builder;
 	}
