@@ -2,6 +2,7 @@
 
 var feign = require('feignjs')
 var FeignRequest = require('feignjs-request');
+var FeignJQuery = require('feignjs-jquery');
 
 
 var restDescription = {
@@ -14,8 +15,10 @@ var restDescription = {
 };
 
 
+
+
 var client = feign.builder()
-        .client(new FeignRequest({debug: false}))
+        .client(new FeignJQuery({debug: false}))
         .requestInterceptor({apply:function(req){
           console.log(req.options.method, req.options.uri, "body:", req.parameters);
         }})
@@ -28,51 +31,40 @@ var client = feign.builder()
 //client.getUser({id:1}, {c: 1})
 
 client.getUser(1, {c: 1})
-.then(console.log)
-.catch(console.error);
-
-client.getUserC({c:1, id:1}, {e:6})
-.then(console.log)
-.catch(console.error);
-
-/*
-//POST
-
- */
- 
-client.createPost({
+.then(function(r){
+  console.log(r);
+  return client.getUserC({c:1, id:1}, {e:6});
+}).then(function(r){
+  console.log(r);
+  return client.createPost({
     title: 'foo',
     body: 'bar',
     userId: 1
-  })
-.then(console.log)
-.catch(console.error);
-
-
-
-client.modifyPost(1, [{
+  });
+}).then(function(r){
+  console.log(r);
+  return client.modifyPost(1, [{
     id: 155,
     title: 'foo',
     body: 'bar',
     userId: 1
   }])
-.then(console.log)
-.catch(console.error);
-
-client.modifyUserPost(1, 1, [{
+}).then(function(r){
+  console.log(r);
+  return client.modifyUserPost({userId: 1, postId:1}, [{
     id: 1,
     title: 'foo',
     body: 'bar',
     userId: 1
-  }])
-.then(console.log)
-.catch(console.error);
-
-client.modifyUserPost({userId: 1, postId:1}, [{
+  }]) 
+})
+.catch(console.error)
+.then(function(r){
+  return client.modifyUserPost(1, 1, [{
     id: 1,
     title: 'foo',
     body: 'bar',
     userId: 1
-  }])
-.then(console.log)
+  }]);
+})
 .catch(console.error);

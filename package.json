@@ -10,7 +10,7 @@
     "bower": "npm run browserify && npm run uglify",
     "browserify": "node_modules/.bin/browserify feign.js -o dist/feign.js --s feign --no-bundle-external",
     "uglify": "node_modules/.bin/uglify dist/feign.js -o dist/feign.min.js",
-    "prepublish": "npm run bower bower"
+    "prepublish": "npm run bower"
   },
   "repository": {
     "type": "git",
