@@ -4,7 +4,9 @@
   "description": "feign for js",
   "main": "feign.js",
   "scripts": {
-    "test": "nodeunit tests"
+    "test": "nodeunit tests",
+    "bower": "browserify feign.js -o dist/feign.js --s feign --no-bundle-external && uglifyjs dist/feign.js -o dist/feign.min.js",
+    "prepublish": "npm run-script bower"
   },
   "repository": {
     "type": "git",
@@ -16,6 +18,14 @@
     "descriptive",
     "client"
   ],
+  "browserify": {
+      "transform": [ "browserify-shim" ]
+  },
+  "browserify-shim": {
+      "args-js": "global:Args",
+      "lodash": "global:_",
+      "uri-templates": "global:UriTemplate"
+  },
   "author": "Peter Mucha",
   "license": "MIT",
   "bugs": {
@@ -26,5 +36,9 @@
     "args-js": "^0.10.6",
     "lodash": "^3.9.3",
     "uri-templates": "^0.1.7"
+  },
+  "devDependencies": {
+    "browserify": "^10.2.4",
+    "browserify-shim": "^3.8.8"
   }
 }

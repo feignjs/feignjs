@@ -1,0 +1,32 @@
+{
+  "name": "feignjs",
+  "version": "0.0.1",
+  "homepage": "https://github.com/feignjs/feignjs",
+  "description": "feign-like descriptive rest-client",
+  "main": "dist/feign.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "feign",
+    "rest",
+    "descriptive",
+    "client"
+  ],
+  "dependencies": {
+    "args-js": "^0.10.6",
+    "lodash": "^3.9.3",
+    "uri-templates": "^0.1.7"
+  },
+  "authors": [
+    "Peter Mucha"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
