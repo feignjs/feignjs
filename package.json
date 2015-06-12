@@ -4,7 +4,8 @@
   "description": "feign for js",
   "main": "feign.js",
   "scripts": {
-    "test": "node_modules/.bin/nodeunit tests",
+    "test-plain": "node_modules/.bin/nodeunit tests",
+    "test": "npm run test-cov",
     "test-cov": "istanbul cover testsuite.js && cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js",
     "bower": "npm run browserify && npm run uglify",
     "browserify": "node_modules/.bin/browserify feign.js -o dist/feign.js --s feign --no-bundle-external",
