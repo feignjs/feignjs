@@ -33,7 +33,7 @@ var apiDescription = {
 
 var client = feign.builder()
         .client(new FeignRequest())        
-        .target(restDescription, 'http://jsonplaceholder.typicode.com');
+        .target(apiDescription, 'http://jsonplaceholder.typicode.com');
 
 client.getUser(1).then(console.log)
 ```
