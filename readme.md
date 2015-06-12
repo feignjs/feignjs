@@ -35,6 +35,7 @@ var client = feign.builder()
         .client(new FeignRequest())        
         .target(apiDescription, 'http://jsonplaceholder.typicode.com');
 
+        
 client.getUser(1).then(console.log)
 ```
 see more examples in the [samples-folder](samples)
