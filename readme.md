@@ -1,4 +1,4 @@
-# Feign.js
+# Feign.js [![Build Status](https://travis-ci.org/feignjs/feignjs.svg)](https://travis-ci.org/feignjs/feignjs)
 Declarative flexible Restclient-bridge that enables to easily define rest-client 
 for node. It is based on the java-implementation of feign [from netflix](https://github.com/Netflix/feign).
 
