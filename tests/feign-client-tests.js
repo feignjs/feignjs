@@ -1,24 +1,5 @@
 var feign = require("../feign");
-
-
-function MockClient(baseUrl, parameters, options, test){
-  this.baseUrl = baseUrl;
-  this.parameters = parameters;
-  this.options = options;
-  this.test = test;
-} 
-
-MockClient.prototype.request = function(requestData){
-  try{
-    this.test.equal(requestData.baseUrl, this.baseUrl);
-    this.test.deepEqual(requestData.parameters, this.parameters);
-    this.test.deepEqual(requestData.options, this.options);
-    return Promise.resolve({raw:{}, body:{}});
-  } catch (e){
-    return Promise.reject(e);
-  }
-};
-
+var MockClient = require("./mockClient");
 
 
 module.exports = {
@@ -61,4 +42,8 @@ module.exports = {
       test.done();
     }, console.error);
   },
+  
+  
+  
+  
 };
