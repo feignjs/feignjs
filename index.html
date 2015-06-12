@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Feignjs by feignjs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Feignjs</h1>
+      <h2 class="project-tagline">feign-like rest client for js</h2>
+      <a href="https://github.com/feignjs/feignjs" class="btn">View on GitHub</a>
+      <a href="https://github.com/feignjs/feignjs/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/feignjs/feignjs/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="feignjs" class="anchor" href="#feignjs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Feign.js</h1>
+
+<p>Declarative flexible Restclient-bridge that enables to easily define rest-client 
+for node. It is based on the java-implementation of feign <a href="https://github.com/Netflix/feign">from netflix</a>.</p>
+
+<p><code>Remark:</code> this library is not affiliated to netflix</p>
+
+<h2>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h2>
+
+<p>Feign.js  allows to define a rest-client api and staying independent of a specific client-implementation.</p>
+
+<p>Clients supported:</p>
+
+<ul>
+<li>
+<a href="https://github.com/request/request">Request</a> (<code>feignjs-request</code> <a href="https://github.com/feignjs/feignjs-request">module</a>)</li>
+</ul>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>You need to install both feignjs and a client to be used for feign.</p>
+
+<pre><code>npm install feignjs
+npm install feignjs-&lt;client&gt;
+</code></pre>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting started</h2>
+
+<p>Similar to <a href="https://github.com/Netflix/feign">Feign</a>, the api will be described 
+declaratively and then reflectively instantiated.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> apiDescription <span class="pl-k">=</span> {
+  getUsers<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>GET /users<span class="pl-pds">'</span></span>,
+  getUser<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>GET /users/{id}<span class="pl-pds">'</span></span>,
+  createPost<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>POST /posts<span class="pl-pds">'</span></span>,
+  modifyPost<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>PUT /posts/{id}<span class="pl-pds">'</span></span>,
+};
+
+<span class="pl-k">var</span> client <span class="pl-k">=</span> feign.builder()
+        .client(<span class="pl-k">new</span> <span class="pl-en">FeignRequest</span>())        
+        .<span class="pl-c1">target</span>(apiDescription, <span class="pl-s"><span class="pl-pds">'</span>http://jsonplaceholder.typicode.com<span class="pl-pds">'</span></span>);
+
+client.getUser(<span class="pl-c1">1</span>).then(<span class="pl-en">console</span><span class="pl-c1">.log</span>)</pre></div>
+
+<p>see more examples in the <a href="samples">samples-folder</a></p>
+
+<h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features:</h2>
+
+<ul>
+<li>path-parameter support (<a href="https://tools.ietf.org/html/rfc6570">rfc6570</a>)</li>
+<li>
+<p>very flexible api:</p>
+
+<ul>
+<li>promise or callback style, however you want it</li>
+<li>flexible parameters: can be named or unnamed. (<code>client.getUser(1)</code> or <code>client.getUser({id:1})</code>)</li>
+</ul>
+
+<h2>
+<a id="options" class="anchor" href="#options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Options:</h2>
+
+<p>an option-object can be fed into feign.builder() with following options:</p>
+
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Note</th>
+<th>default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>promise</td>
+<td>crate a promise-based api. false for callback-based api.</td>
+<td>true</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/feignjs/feignjs">Feignjs</a> is maintained by <a href="https://github.com/feignjs">feignjs</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-64038449-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
+
