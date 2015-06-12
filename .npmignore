@@ -1,3 +1,4 @@
 tests/
 samples/
 npm-debug.log
+coverage/

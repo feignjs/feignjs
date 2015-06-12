@@ -4,7 +4,8 @@
   "description": "feign for js",
   "main": "feign.js",
   "scripts": {
-    "test": "nodeunit tests",
+    "test": "node_modules/.bin/nodeunit tests",
+    "test-cov": "istanbul cover testsuite.js && cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js",
     "bower": "browserify feign.js -o dist/feign.js --s feign --no-bundle-external && uglifyjs dist/feign.js -o dist/feign.min.js",
     "prepublish": "npm run-script bower"
   },
@@ -19,12 +20,14 @@
     "client"
   ],
   "browserify": {
-      "transform": [ "browserify-shim" ]
+    "transform": [
+      "browserify-shim"
+    ]
   },
   "browserify-shim": {
-      "args-js": "global:Args",
-      "lodash": "global:_",
-      "uri-templates": "global:UriTemplate"
+    "args-js": "global:Args",
+    "lodash": "global:_",
+    "uri-templates": "global:UriTemplate"
   },
   "author": "Peter Mucha",
   "license": "MIT",
@@ -39,6 +42,8 @@
   },
   "devDependencies": {
     "browserify": "^10.2.4",
-    "browserify-shim": "^3.8.8"
+    "browserify-shim": "^3.8.8",
+    "codecov.io": "^0.1.2",
+    "nodeunit": "^0.9.1"
   }
 }
