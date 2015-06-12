@@ -6,8 +6,10 @@
   "scripts": {
     "test": "node_modules/.bin/nodeunit tests",
     "test-cov": "istanbul cover testsuite.js && cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js",
-    "bower": "browserify feign.js -o dist/feign.js --s feign --no-bundle-external && uglifyjs dist/feign.js -o dist/feign.min.js",
-    "prepublish": "npm run-script bower"
+    "bower": "npm run browserify && npm run uglify",
+    "browserify": "node_modules/.bin/browserify feign.js -o dist/feign.js --s feign --no-bundle-external",
+    "uglify": "node_modules/.bin/uglify dist/feign.js -o dist/feign.min.js",
+    "prepublish": "npm run bower bower"
   },
   "repository": {
     "type": "git",
@@ -44,6 +46,7 @@
     "browserify": "^10.2.4",
     "browserify-shim": "^3.8.8",
     "codecov.io": "^0.1.2",
-    "nodeunit": "^0.9.1"
+    "nodeunit": "^0.9.1",
+    "uglify": "^0.1.5"
   }
 }
