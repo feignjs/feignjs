@@ -20,7 +20,8 @@
 
     <section class="main-content">
       <h1>
-<a id="feignjs" class="anchor" href="#feignjs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Feign.js</h1>
+<a id="feignjs--" class="anchor" href="#feignjs--" aria-hidden="true"><span class="octicon octicon-link"></span></a>Feign.js <a href="https://travis-ci.org/feignjs/feignjs"><img src="https://travis-ci.org/feignjs/feignjs.svg" alt="Build Status"></a> <a href="https://codecov.io/github/feignjs/feignjs?branch=master"><img src="https://img.shields.io/codecov/c/github/feignjs/feignjs.svg?style=flat-square" alt="Coverage"></a>
+</h1>
 
 <p>Declarative flexible Restclient-bridge that enables to easily define rest-client 
 for node. It is based on the java-implementation of feign <a href="https://github.com/Netflix/feign">from netflix</a>.</p>
@@ -36,8 +37,9 @@ for node. It is based on the java-implementation of feign <a href="https://githu
 
 <ul>
 <li>
-<a href="https://github.com/request/request">Request</a> (<code>feignjs-request</code> <a href="https://github.com/feignjs/feignjs-request">module</a>) for node</li>
-<a href="https://jquery.com/">JQuery</a> (<code>feignjs-jquery</code> <a href="https://github.com/feignjs/feignjs-request">module</a>) for node and browser</li>
+<a href="https://github.com/request/request">Request</a> (<code>feignjs-request</code> <a href="https://github.com/feignjs/feignjs-request">module</a> for node)</li>
+<li>
+<a href="https://jquery.com/">JQuery</a> (<code>feignjs-jquery</code> <a href="https://github.com/feignjs/feignjs-jquery">module</a> for node or bower)</li>
 </ul>
 
 <h2>
@@ -48,11 +50,13 @@ for node. It is based on the java-implementation of feign <a href="https://githu
 <pre><code>npm install feignjs
 npm install feignjs-&lt;client&gt;
 </code></pre>
-<p>Or with bower.</p>
+
+<p>or with bower</p>
 
 <pre><code>bower install feignjs
 bower install feignjs-&lt;client&gt;
 </code></pre>
+
 <h2>
 <a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting started</h2>
 
@@ -69,6 +73,7 @@ declaratively and then reflectively instantiated.</p>
 <span class="pl-k">var</span> client <span class="pl-k">=</span> feign.builder()
         .client(<span class="pl-k">new</span> <span class="pl-en">FeignRequest</span>())        
         .<span class="pl-c1">target</span>(apiDescription, <span class="pl-s"><span class="pl-pds">'</span>http://jsonplaceholder.typicode.com<span class="pl-pds">'</span></span>);
+
 
 client.getUser(<span class="pl-c1">1</span>).then(<span class="pl-en">console</span><span class="pl-c1">.log</span>)</pre></div>
 
