@@ -27,6 +27,12 @@ bower install feignjs
 bower install feignjs-<client>
 ```
 
+## Features:
+* path-parameter support ([rfc6570](https://tools.ietf.org/html/rfc6570))
+* very flexible api:
+ * promise or callback style, however you want it
+ * flexible parameters: can be named or unnamed. (`client.getUser(1)` or `client.getUser({id:1})`)
+ 
 ## Getting started
 Similar to [Feign](https://github.com/Netflix/feign), the api will be described 
 declaratively and then reflectively instantiated.
@@ -44,17 +50,56 @@ var client = feign.builder()
         .target(apiDescription, 'http://jsonplaceholder.typicode.com');
 
         
-client.getUser(1).then(console.log)
+client.modifyPost(1, {content: 'new text'}).then(console.log)
 ```
 see more examples in the [samples-folder](samples)
 
+## Format
+The description of clients is mostly intuitive. it can be given as plain string or object.
+ The format supports uri-templates based on ([rfc6570](https://tools.ietf.org/html/rfc6570)), so you can even use more complicate formats:
 
-## Features:
-* path-parameter support ([rfc6570](https://tools.ietf.org/html/rfc6570))
-* very flexible api:
- * promise or callback style, however you want it
- * flexible parameters: can be named or unnamed. (`client.getUser(1)` or `client.getUser({id:1})`)
- 
+```javascript
+var apiDescription = {
+  getUsers: 'GET /users',
+  getUser: 'GET /users/{id}',
+  getPosts: 'POST /posts{?count,order}',
+  modifyPost: {
+    method: 'PUT',
+    uri: '/posts{/id}'
+  }
+  
+};
+```
+
+
+## Usage
+The generated client contains methods to call the described api-endpoints. 
+Depending on the Http-method and the path-parameters the format will vary. 
+```
+client.method([path-parameters], [body/query/post-parameter-object], [callback-function]);
+```
+* Path-parameters can be comma-separated or an object with named parameters
+* parameter-object: the object after path-parameters will be used as body or query-parameter object, depending on your configuration. 
+path-parameters means here all parameters that are used in the uri-template.
+* callback-function: if you configured the builder to use callback-style, then the last parameter will be used as callback function of format `function(error, result)`
+
+Some examples:
+```javascript
+//GET /users/{id}
+client.getUser(1)
+client.getUser({id: 1})
+
+//PUT /posts/{id}
+client.modifyPost(1, newPost);
+client.modifyPost({id: 1}, newPost);
+//or if you configured callbacks:
+client.modifyPost({id: 1}, newPost, onResult);
+
+//POST /posts{?count,order}
+client.getPosts({count: 10, order: 'ASC'});
+
+```
+
  
  ## Options:
  an option-object can be fed into feign.builder() with following options:
@@ -64,3 +109,7 @@ see more examples in the [samples-folder](samples)
 | promise | crate a promise-based api. false for callback-based api. | true |
 
 
+## Extension
+//TODO
+* Request Interceptors
+* custom clients
