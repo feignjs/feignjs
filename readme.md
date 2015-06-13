@@ -8,7 +8,8 @@ for node. It is based on the java-implementation of feign [from netflix](https:/
 Feign.js  allows to define a rest-client api and staying independent of a specific client-implementation.
 
 Clients supported:
-* [Request](https://github.com/request/request) (`feignjs-request` [module](https://github.com/feignjs/feignjs-request))
+* [Request](https://github.com/request/request) (`feignjs-request` [module](https://github.com/feignjs/feignjs-request) for node)
+* [JQuery](https://jquery.com/) (`feignjs-jquery` [module](https://github.com/feignjs/feignjs-jquery) for node or bower)
  
  
 ## Installation
@@ -17,6 +18,13 @@ You need to install both feignjs and a client to be used for feign.
 ```
 npm install feignjs
 npm install feignjs-<client>
+```
+
+or with bower
+
+```
+bower install feignjs
+bower install feignjs-<client>
 ```
 
 ## Getting started

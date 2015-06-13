@@ -46,7 +46,7 @@ Request.prototype._getProcessedUrl = function(request, pathParameters){
   } else {
     newOptions.uri = template.fill();
     //if there are no pathVariables in url, we use pathParameters as parameters for later
-    if (pathParameters !== null && pathParameters.length > 0){
+    if (pathParameters.length > 0){
       request.parameters = pathParameters[0];
     }
   }

@@ -9,8 +9,7 @@
     "test-cov": "node_modules/.bin/istanbul cover testsuite.js && cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js",
     "bower": "npm run browserify && npm run uglify",
     "browserify": "node_modules/.bin/browserify feign.js -o dist/feign.js --s feign --no-bundle-external",
-    "uglify": "node_modules/.bin/uglify dist/feign.js -o dist/feign.min.js",
-    "prepublish": "npm run bower"
+    "uglify": "node_modules/.bin/uglify dist/feign.js -o dist/feign.min.js"
   },
   "repository": {
     "type": "git",
