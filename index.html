@@ -58,6 +58,20 @@ bower install feignjs-&lt;client&gt;
 </code></pre>
 
 <h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features:</h2>
+
+<ul>
+<li>path-parameter support (<a href="https://tools.ietf.org/html/rfc6570">rfc6570</a>)</li>
+<li>very flexible api:
+
+<ul>
+<li>promise or callback style, however you want it</li>
+<li>flexible parameters: can be named or unnamed. (<code>client.getUser(1)</code> or <code>client.getUser({id:1})</code>)</li>
+</ul>
+</li>
+</ul>
+
+<h2>
 <a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting started</h2>
 
 <p>Similar to <a href="https://github.com/Netflix/feign">Feign</a>, the api will be described 
@@ -75,45 +89,75 @@ declaratively and then reflectively instantiated.</p>
         .<span class="pl-c1">target</span>(apiDescription, <span class="pl-s"><span class="pl-pds">'</span>http://jsonplaceholder.typicode.com<span class="pl-pds">'</span></span>);
 
 
-client.getUser(<span class="pl-c1">1</span>).then(<span class="pl-en">console</span><span class="pl-c1">.log</span>)</pre></div>
+client.modifyPost(<span class="pl-c1">1</span>, {content<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>new text<span class="pl-pds">'</span></span>}).then(<span class="pl-en">console</span><span class="pl-c1">.log</span>)</pre></div>
 
 <p>see more examples in the <a href="samples">samples-folder</a></p>
 
 <h2>
-<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features:</h2>
+<a id="format" class="anchor" href="#format" aria-hidden="true"><span class="octicon octicon-link"></span></a>Format</h2>
 
-<ul>
-<li>path-parameter support (<a href="https://tools.ietf.org/html/rfc6570">rfc6570</a>)</li>
-<li>
-<p>very flexible api:</p>
+<p>The description of clients is mostly intuitive. it can be given as plain string or object.
+ The format supports uri-templates based on (<a href="https://tools.ietf.org/html/rfc6570">rfc6570</a>), so you can even use more complicate formats:</p>
 
-<ul>
-<li>promise or callback style, however you want it</li>
-<li>flexible parameters: can be named or unnamed. (<code>client.getUser(1)</code> or <code>client.getUser({id:1})</code>)</li>
-</ul>
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> apiDescription <span class="pl-k">=</span> {
+  getUsers<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>GET /users<span class="pl-pds">'</span></span>,
+  getUser<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>GET /users/{id}<span class="pl-pds">'</span></span>,
+  getPosts<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>POST /posts{?count,order}<span class="pl-pds">'</span></span>,
+  modifyPost<span class="pl-k">:</span> {
+    method<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>PUT<span class="pl-pds">'</span></span>,
+    uri<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>/posts{/id}<span class="pl-pds">'</span></span>
+  }
+
+};</pre></div>
 
 <h2>
-<a id="options" class="anchor" href="#options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Options:</h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<p>an option-object can be fed into feign.builder() with following options:</p>
+<p>The generated client contains methods to call the described api-endpoints. 
+Depending on the Http-method and the path-parameters the format will vary. </p>
 
-<table>
-<thead>
-<tr>
-<th>Option</th>
-<th>Note</th>
-<th>default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>promise</td>
-<td>crate a promise-based api. false for callback-based api.</td>
-<td>true</td>
-</tr>
-</tbody>
-</table>
+<pre><code>client.method([path-parameters], [body/query/post-parameter-object], [callback-function]);
+</code></pre>
+
+<ul>
+<li>Path-parameters can be comma-separated or an object with named parameters</li>
+<li>parameter-object: the object after path-parameters will be used as body or query-parameter object, depending on your configuration. 
+path-parameters means here all parameters that are used in the uri-template.</li>
+<li>callback-function: if you configured the builder to use callback-style, then the last parameter will be used as callback function of format <code>function(error, result)</code>
 </li>
+</ul>
+
+<p>Some examples:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">//GET /users/{id}</span>
+client.getUser(<span class="pl-c1">1</span>)
+client.getUser({id<span class="pl-k">:</span> <span class="pl-c1">1</span>})
+
+<span class="pl-c">//PUT /posts/{id}</span>
+client.modifyPost(<span class="pl-c1">1</span>, newPost);
+client.modifyPost({id<span class="pl-k">:</span> <span class="pl-c1">1</span>}, newPost);
+<span class="pl-c">//or if you configured callbacks:</span>
+client.modifyPost({id<span class="pl-k">:</span> <span class="pl-c1">1</span>}, newPost, onResult);
+
+<span class="pl-c">//POST /posts{?count,order}</span>
+client.getPosts({count<span class="pl-k">:</span> <span class="pl-c1">10</span>, order<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>ASC<span class="pl-pds">'</span></span>});
+</pre></div>
+
+<p>## Options:
+ an option-object can be fed into feign.builder() with following options:</p>
+
+<p>| Option | Note | default
+|---|---|---|
+| promise | crate a promise-based api. false for callback-based api. | true |</p>
+
+<h2>
+<a id="extension" class="anchor" href="#extension" aria-hidden="true"><span class="octicon octicon-link"></span></a>Extension</h2>
+
+<p>//TODO</p>
+
+<ul>
+<li>Request Interceptors</li>
+<li>custom clients</li>
 </ul>
 
       <footer class="site-footer">
