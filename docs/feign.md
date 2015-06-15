@@ -62,7 +62,7 @@ crates the client based on the given api-description and baseUrl
   baseUrl: 'http://localhost/',
   options: {method: 'GET', uri: '/bla'},
   parameters: {}
-};``` * ####Response ```javascript
+};```####Response ```javascript
 {
   raw: {},
   body: ...

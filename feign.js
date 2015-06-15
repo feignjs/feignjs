@@ -19,7 +19,7 @@
 };
  * ```
  * 
- *  * ####Response 
+ * ####Response 
  * ```javascript
 {
   raw: {},
