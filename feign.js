@@ -1,3 +1,26 @@
+/**
+* Declarative Rest Client Api.
+* 
+* 
+* 
+  @module feign
+*/
+ 
+
+/**
+ * @overview Internal types:
+ * 
+ * ####Request 
+ * ```javascript
+{
+  baseUrl: 'http://localhost/',
+  options: {method: 'GET', uri: '/bla'},
+  parameters: {}
+};
+ * ```
+ * 
+ * 
+ */
 
 var Args = require("args-js");
 var Request = require("./request");
@@ -10,6 +33,45 @@ function FeignBuilder() {
   this.requestInterceptors = [];
 }
 
+
+
+module.exports = {
+  /**
+   * creates a feign-builder to build up a rest-client.
+   * parameters can be given named as object or unnamed
+   * @param {boolean} promise promise or callback api-style
+   */
+  builder: function () {
+    var args = Args([
+      { promise: Args.BOOL | Args.Optional, _default: true }
+    ], arguments);
+
+    var builder = new FeignBuilder();
+
+    builder.proxyFactory(args.promise ? promiseProxyFactory : cbProxyFactory);
+    //builder.requestInterceptor(pathParameterInterceptor);
+
+    return builder;
+  }
+};
+
+/**
+ * sets the client to be used for ajax-requests. 
+ * A client has a very simlpe API and can be implemented very easily.
+ * It accepts a [request](#Request)-Object and returns a **promise**.
+ * 
+ * ```javascript
+ * {
+ *   request: function(request){
+ *      
+ *   }
+ * }
+ * ```
+ * 
+ * 
+ * 
+ * @param feignClient {object} a client that translates a feign-request to some thirdparty library
+ */
 FeignBuilder.prototype.client = function (feignClient) {
   this.feignClient = feignClient;
   return this;
@@ -21,12 +83,31 @@ FeignBuilder.prototype.proxyFactory = function (proxyFactory) {
   return this;
 };
 
+/**
+ * adds a request interceptor that will be called with the [request](#Request), so it can be altered or logged
+ * 
+ * A request interceptor looks like that:
+ * ```javascript
+ * {
+ *   apply: function(request){
+ *      
+ *   }
+ * }
+ * ```
+ * 
+ * @param requestInterceptor {object} an interceptor
+ */
 FeignBuilder.prototype.requestInterceptor = function (requestInterceptor) {
   this.requestInterceptors.push(requestInterceptor);
   return this;
 };
 
 
+/**
+ * crates the client based on the given api-description and baseUrl
+ * @param {object} apiDescription
+ * @param {string} baseUrl  
+ */
 FeignBuilder.prototype.target = function (apiDescription, baseUrl) {
   var api = this._createApi(apiDescription, baseUrl);
   return api;
@@ -74,19 +155,3 @@ FeignBuilder.prototype._getOptionsFromDescription = function (apiDescription, ke
 
 
 
-
-
-module.exports = {
-  builder: function (builderOptions) {
-    var args = Args([
-      { promise: Args.BOOL | Args.Optional, _default: true }
-    ], arguments);
-
-    var builder = new FeignBuilder();
-
-    builder.proxyFactory(args.promise ? promiseProxyFactory : cbProxyFactory);
-    //builder.requestInterceptor(pathParameterInterceptor);
-
-    return builder;
-  }
-};
