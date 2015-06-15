@@ -19,6 +19,13 @@
 };
  * ```
  * 
+ *  * ####Response 
+ * ```javascript
+{
+  raw: {},
+  body: ...
+};
+ * ```
  * 
  */
 
@@ -58,7 +65,7 @@ module.exports = {
 /**
  * sets the client to be used for ajax-requests. 
  * A client has a very simlpe API and can be implemented very easily.
- * It accepts a [request](#Request)-Object and returns a **promise**.
+ * It accepts a [request](#request)-Object and returns a **promise** that contains the [response](#response).
  * 
  * ```javascript
  * {
@@ -67,8 +74,6 @@ module.exports = {
  *   }
  * }
  * ```
- * 
- * 
  * 
  * @param feignClient {object} a client that translates a feign-request to some thirdparty library
  */
@@ -84,7 +89,7 @@ FeignBuilder.prototype.proxyFactory = function (proxyFactory) {
 };
 
 /**
- * adds a request interceptor that will be called with the [request](#Request), so it can be altered or logged
+ * adds a request interceptor that will be called with the [request](#request), so it can be altered or logged
  * 
  * A request interceptor looks like that:
  * ```javascript
