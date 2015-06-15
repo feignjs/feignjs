@@ -22,5 +22,9 @@
   "dependencies": {
     "feignjs": "^0.0.1",
     "feignjs-request": "^0.0.1"
+  },
+  "devDependencies": {
+    "json-server": "^0.7.14",
+    "lodash": "^3.9.3"
   }
 }
