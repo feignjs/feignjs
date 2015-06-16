@@ -2,15 +2,16 @@
   "name": "feignjs",
   "version": "0.0.2",
   "description": "feign for js",
-  "main": "feign.js",
+  "main": "lib/feign.js",
   "scripts": {
     "test-plain": "node_modules/.bin/nodeunit tests",
     "test": "npm run test-cov",
     "test-cov": "node_modules/.bin/istanbul cover testsuite.js && cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js",
     "bower": "npm run browserify && npm run uglify",
-    "browserify": "node_modules/.bin/browserify feign.js -o dist/feign.js --s feign --no-bundle-external",
+    "browserify": "node_modules/.bin/browserify lib/feign.js -o dist/feign.js --s feign --no-bundle-external",
     "uglify": "node_modules/.bin/uglifyjs dist/feign.js -o dist/feign.min.js",
-    "jsdoc": "node_modules/.bin/jsdox --output docs feign.js"
+    "jsdoc": "node_modules/.bin/jsdox --output docs feign.js",
+    "typedoc": "node_modules/.bin/typedoc --readme none --module commonjs --out docs/ src/"
   },
   "repository": {
     "type": "git",
@@ -50,6 +51,7 @@
     "istanbul": "^0.3.15",
     "jsdox": "^0.4.9",
     "nodeunit": "^0.9.1",
+    "typedoc": "^0.3.4",
     "uglify-js": "^2.4.23"
   }
 }

@@ -1,6 +1,4 @@
-var feign = require("../feign");
-
-
+var feign = require("../lib/feign");
 
 module.exports = {
 

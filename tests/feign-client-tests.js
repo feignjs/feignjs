@@ -1,4 +1,4 @@
-var feign = require("../feign");
+var feign = require("../lib/feign");
 var MockClient = require("./mockClient");
 
 
