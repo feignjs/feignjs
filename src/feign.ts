@@ -1,39 +1,13 @@
-/**
-* Declarative Rest Client Api.
-* 
-* 
-* 
-  @module feign
-*/
- 
+/// <reference path="lib/feign.d.ts" />
 
-/**
- * @overview Internal types:
- * 
- * ####Request 
- * ```javascript
-{
-  baseUrl: 'http://localhost/',
-  options: {method: 'GET', uri: '/bla'},
-  parameters: {}
-};
- * ```
- * 
- * ####Response 
- * ```javascript
-{
-  raw: {},
-  body: ...
-};
- * ```
- * 
- */
-import Args = require('args-js');
-import proxyFactories = require('./proxyFactories')
-import Request = require('./Request')
 
 module feign {
 
+  export var Args = require("args-js");
+  export var uriTemplate = require("uri-templates");
+  export var _ = require("lodash");
+  
+  
   /**
    * creates a feign-builder to build up a rest-client.
    * parameters can be given named as object or unnamed
@@ -45,27 +19,27 @@ module feign {
     ], arguments);
 
     var builder = new FeignBuilder();
-    builder.proxyFactory(args.promise ? proxyFactories.promise : proxyFactories.callback);
+    builder.proxyFactory(args.promise ? promiseProxyFactory : cbProxyFactory);
     //builder.requestInterceptor(pathParameterInterceptor);
   
     return builder;
   }
 
   interface ProxyFactory {
-    (baseUrl: String, request: Request.Wrapper): () => any;
+    (baseUrl: String, request: Wrapper): () => any;
   }
 
 
   class FeignBuilder {
-    private requestInterceptors: Request.Interceptor[];
+    private requestInterceptors: Interceptor[];
     private proxyMethodFactory: ProxyFactory;
-    private feignClient: Request.FeignClient;
+    private feignClient: FeignClient;
 
     constructor() {
       this.requestInterceptors = [];
     }
 
-    client(feignClient: Request.FeignClient): FeignBuilder {
+    client(feignClient: FeignClient): FeignBuilder {
       this.feignClient = feignClient;
       return this;
     }
@@ -75,7 +49,7 @@ module feign {
       return this;
     }
 
-    requestInterceptor(requestInterceptor: Request.Interceptor): FeignBuilder {
+    requestInterceptor(requestInterceptor: Interceptor): FeignBuilder {
       this.requestInterceptors.push(requestInterceptor);
       return this;
     }
@@ -89,13 +63,13 @@ module feign {
       var api = {};
       for (var key in apiDescription) {
         var options = this.getOptionsFromDescription(apiDescription, key);
-        var requestObj = new Request.Wrapper(options, this.feignClient, this.requestInterceptors);
+        var requestObj = new Wrapper(options, this.feignClient, this.requestInterceptors);
         api[key] = this.proxyMethodFactory(baseUrl, requestObj);
       };
       return api;
     }
 
-    private getOptionsFromDescription(apiDescription: any, key: string): Request.Options {
+    private getOptionsFromDescription(apiDescription: any, key: string): Options {
       var options = apiDescription[key];
 
       if (typeof options == 'string' || options instanceof String) {
@@ -124,4 +98,4 @@ module feign {
 }
 
 
-export = feign;
+

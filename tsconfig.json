@@ -5,7 +5,9 @@
 		"sourceMap": true
 	},
 	"files": [
-		"src/feign.ts"
+		"src/proxyFactories.ts",
+		"src/feign.ts",
+		"src/request.ts"		
 	]
 	
 	
