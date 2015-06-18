@@ -1,3 +1,7 @@
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.feign = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var Args = (window.Args);
+var _ = (window._);
+var uriTemplate = (window.UriTemplate);
 var feign;
 (function (feign) {
     feign.cbProxyFactory = function (baseUrl, requestObj) {
@@ -22,17 +26,15 @@ var feign;
 /// <reference path="lib/feign.d.ts" />
 var feign;
 (function (feign) {
-    feign.Args = require("args-js");
-    feign.uriTemplate = require("uri-templates");
-    feign._ = require("lodash");
     /**
      * creates a feign-builder to build up a rest-client.
      * parameters can be given named as object or unnamed
+     *
      * @param {boolean} promise promise or callback api-style
      */
     function builder() {
-        var args = feign.Args([
-            { promise: feign.Args.BOOL | feign.Args.Optional, _default: true }
+        var args = Args([
+            { promise: Args.BOOL | Args.Optional, _default: true }
         ], arguments);
         var builder = new FeignBuilder();
         builder.proxyFactory(args.promise ? feign.promiseProxyFactory : feign.cbProxyFactory);
@@ -84,9 +86,9 @@ var feign;
                 };
             }
             else {
-                var parsedOptions = feign.Args([
-                    { method: feign.Args.STRING | feign.Args.Optional, _default: 'GET' },
-                    { uri: feign.Args.STRING | feign.Args.Required }
+                var parsedOptions = Args([
+                    { method: Args.STRING | Args.Optional, _default: 'GET' },
+                    { uri: Args.STRING | Args.Required }
                 ], [options]);
                 options = { method: parsedOptions.method, uri: parsedOptions.uri };
             }
@@ -101,7 +103,7 @@ var feign;
         var resultDef = [];
         for (var i = 0; i < varNames.length; ++i) {
             var def = {};
-            def[varNames[i]] = feign.Args.ANY | feign.Args.Required;
+            def[varNames[i]] = Args.ANY | Args.Required;
             resultDef.push(def);
         }
         return resultDef;
@@ -111,15 +113,15 @@ var feign;
             this.options = options;
             this.client = client;
             this.interceptors = interceptors;
-            this.options.uri = feign.uriTemplate(this.options.uri);
+            this.options.uri = uriTemplate(this.options.uri);
         }
         Wrapper.prototype.getProcessedUrl = function (request, pathParameters) {
             var template = request.options.uri;
-            var newOptions = feign._.omit(request.options, 'uri');
+            var newOptions = _.omit(request.options, 'uri');
             if (template.varNames.length > 0) {
                 //pop before args => otherwise args will screw up parsing
                 //parameters where supplied in named style and there is a body
-                if (pathParameters.length == 2 && feign._.isPlainObject(pathParameters[0])) {
+                if (pathParameters.length == 2 && _.isPlainObject(pathParameters[0])) {
                     request.parameters = pathParameters.pop();
                 }
                 else {
@@ -129,7 +131,7 @@ var feign;
                     }
                 }
                 var defs = createDynamicArgsDef(template.varNames);
-                var params = feign.Args(defs, pathParameters);
+                var params = Args(defs, pathParameters);
                 var newUri = template.fill(params);
                 newOptions.uri = newUri;
             }
@@ -168,4 +170,7 @@ var feign;
     })();
     feign.Wrapper = Wrapper;
 })(feign || (feign = {}));
-//# sourceMappingURL=feign.js.map
+module.exports.builder = feign.builder;
+
+},{}]},{},[1])(1)
+});

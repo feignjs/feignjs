@@ -5,9 +5,11 @@
 		"sourceMap": true
 	},
 	"files": [
+		"src/@init.ts",
 		"src/proxyFactories.ts",
 		"src/feign.ts",
-		"src/request.ts"		
+		"src/request.ts",
+		"src/~bootstrap.ts"		
 	]
 	
 	

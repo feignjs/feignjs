@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "homepage": "http://feignjs.github.io/feignjs/",
   "description": "feign-like descriptive rest-client",
-  "main": "dist/feign.js",
+  "main": "dist/feign.web.js",
   "moduleType": [
     "globals"
   ],
