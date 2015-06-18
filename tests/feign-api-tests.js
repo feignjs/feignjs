@@ -1,6 +1,4 @@
-var feign = require("../feign");
-
-
+var feign = require("../dist/feign");
 
 module.exports = {
 
