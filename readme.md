@@ -104,7 +104,7 @@ client.getPosts({count: 10, order: 'ASC'});
  ## Options:
  an option-object can be fed into feign.builder() with following options:
  
- | Option | Note | default
+| Option | Note | default
 |---|---|---|
 | promise | crate a promise-based api. false for callback-based api. | true |
 
