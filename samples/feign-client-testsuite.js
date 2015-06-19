@@ -4,8 +4,8 @@ var assert = require("assert")
 var _ = require("lodash");
 var feign = require('feignjs')
 
-var FeignClient = require('feignjs-request');
-//var FeignClient = require('feignjs-jquery');
+//var FeignClient = require('feignjs-request');
+var FeignClient = require('feignjs-jquery');
 
 var client = new FeignClient();
 
