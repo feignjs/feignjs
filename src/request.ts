@@ -39,11 +39,16 @@ module feign {
     apply(description: RequestDescription): void
   }
   
+ 
   
   export class Wrapper {
     
     
-    constructor(private options: Options, private client, private interceptors: Interceptor[]){
+    constructor(private options: Options,
+                private client, 
+                private interceptors: Interceptor[],
+                private encoder: Encoder,
+                private decoder: Decoder){
       this.options.uri = uriTemplate(this.options.uri);
     }
     
@@ -95,8 +100,16 @@ module feign {
       this.getProcessedUrl(request, callArguments)
     
       this.processInterceptors(request);
+      
+      if (this.encoder && request.options.method !== 'GET'){
+        request.parameters = this.encoder.encode(request.parameters);
+      }
     
       return this.client.request(request).then(function(response: Response){
+          if (this.decoder){
+            return this.decoder.decode(response.body);
+          }
+          
           return response.body;
       });
     }

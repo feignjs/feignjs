@@ -34,6 +34,17 @@ module feign {
       */
      requestInterceptor(requestInterceptor: Interceptor): IFeignBuilder
      
+     
+     /**
+      * adds body encoder. depending on the client you use, you may need to use an extra decoder/encoder
+      */
+     encoder(encoder: Encoder): IFeignBuilder
+     
+     /**
+      * adds body decoder. depending on the client you use, you may need to use an extra decoder/encoder
+      */
+     decoder(encoder: Decoder): IFeignBuilder
+     
      /**
       * sets the baseUrl and apiDescription with which the 
       * client should be generated
@@ -41,6 +52,8 @@ module feign {
       * @return the generated client-object
       */
      target(apiDescription: any, baseUrl: string): any
+     
+     
   }
   
   /**
@@ -68,7 +81,9 @@ module feign {
     private requestInterceptors: Interceptor[];
     private proxyMethodFactory: ProxyFactory;
     private feignClient: FeignClient;
-
+    private bodyDecoder: Decoder;
+    private bodyEncoder: Encoder;
+    
     constructor() {
       this.requestInterceptors = [];
     }
@@ -87,7 +102,16 @@ module feign {
       this.requestInterceptors.push(requestInterceptor);
       return this;
     }
-
+    
+    encoder(encoder: Encoder): FeignBuilder {
+      this.bodyEncoder = encoder;
+      return this;
+    }
+  
+    decoder(decoder: Decoder): FeignBuilder {
+      this.bodyDecoder = decoder;
+      return this;
+    }
     target(apiDescription: any, baseUrl: string): any {
       var api = this.createApi(apiDescription, baseUrl);
       return api;
@@ -97,7 +121,7 @@ module feign {
       var api = {};
       for (var key in apiDescription) {
         var options = this.getOptionsFromDescription(apiDescription, key);
-        var requestObj = new Wrapper(options, this.feignClient, this.requestInterceptors);
+        var requestObj = new Wrapper(options, this.feignClient, this.requestInterceptors, this.bodyEncoder, this.bodyDecoder);
         api[key] = this.proxyMethodFactory(baseUrl, requestObj);
       };
       return api;

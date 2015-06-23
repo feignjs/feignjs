@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/warmuuh/feignjs#readme",
   "dependencies": {
-    "feignjs": "^0.0.2",
+    "feignjs": "^0.0.3",
     "feignjs-request": "^0.0.2",
     "feignjs-jquery": "^0.0.2"
   },
