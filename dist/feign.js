@@ -22,6 +22,36 @@ var feign;
         };
     };
 })(feign || (feign = {}));
+var feign;
+(function (feign) {
+    var JsonEncoder = (function () {
+        function JsonEncoder() {
+        }
+        JsonEncoder.prototype.encode = function (body) {
+            if (body === null || body === undefined)
+                return body;
+            return JSON.stringify(body);
+        };
+        return JsonEncoder;
+    })();
+    feign.JsonEncoder = JsonEncoder;
+    var JsonDecoder = (function () {
+        function JsonDecoder() {
+        }
+        JsonDecoder.prototype.decode = function (body) {
+            if (!body || !(typeof (body) === "string"))
+                return body;
+            try {
+                return JSON.parse(body);
+            }
+            catch (e) {
+                throw new Error("Failed to decode json: " + e);
+            }
+        };
+        return JsonDecoder;
+    })();
+    feign.JsonDecoder = JsonDecoder;
+})(feign || (feign = {}));
 /// <reference path="lib/feign.d.ts" />
 var feign;
 (function (feign) {
@@ -57,6 +87,14 @@ var feign;
             this.requestInterceptors.push(requestInterceptor);
             return this;
         };
+        FeignBuilder.prototype.encoder = function (encoder) {
+            this.bodyEncoder = encoder;
+            return this;
+        };
+        FeignBuilder.prototype.decoder = function (decoder) {
+            this.bodyDecoder = decoder;
+            return this;
+        };
         FeignBuilder.prototype.target = function (apiDescription, baseUrl) {
             var api = this.createApi(apiDescription, baseUrl);
             return api;
@@ -65,7 +103,7 @@ var feign;
             var api = {};
             for (var key in apiDescription) {
                 var options = this.getOptionsFromDescription(apiDescription, key);
-                var requestObj = new feign.Wrapper(options, this.feignClient, this.requestInterceptors);
+                var requestObj = new feign.Wrapper(options, this.feignClient, this.requestInterceptors, this.bodyEncoder, this.bodyDecoder);
                 api[key] = this.proxyMethodFactory(baseUrl, requestObj);
             }
             ;
@@ -108,10 +146,12 @@ var feign;
         return resultDef;
     }
     var Wrapper = (function () {
-        function Wrapper(options, client, interceptors) {
+        function Wrapper(options, client, interceptors, encoder, decoder) {
             this.options = options;
             this.client = client;
             this.interceptors = interceptors;
+            this.encoder = encoder;
+            this.decoder = decoder;
             this.options.uri = uriTemplate(this.options.uri);
         }
         Wrapper.prototype.getProcessedUrl = function (request, pathParameters) {
@@ -156,7 +196,14 @@ var feign;
             };
             this.getProcessedUrl(request, callArguments);
             this.processInterceptors(request);
+            if (this.encoder && request.options.method !== 'GET') {
+                request.parameters = this.encoder.encode(request.parameters);
+            }
+            var _this = this;
             return this.client.request(request).then(function (response) {
+                if (_this.decoder) {
+                    return _this.decoder.decode(response.body);
+                }
                 return response.body;
             });
         };
@@ -169,5 +216,9 @@ var feign;
     })();
     feign.Wrapper = Wrapper;
 })(feign || (feign = {}));
-module.exports.builder = feign.builder;
+module.exports = {
+    builder: feign.builder,
+    JsonEncoder: feign.JsonEncoder,
+    JsonDecoder: feign.JsonDecoder
+};
 //# sourceMappingURL=feign.js.map

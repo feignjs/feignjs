@@ -104,12 +104,11 @@ module feign {
       if (this.encoder && request.options.method !== 'GET'){
         request.parameters = this.encoder.encode(request.parameters);
       }
-    
+      var _this = this;
       return this.client.request(request).then(function(response: Response){
-          if (this.decoder){
-            return this.decoder.decode(response.body);
+          if (_this.decoder){
+            return _this.decoder.decode(response.body);
           }
-          
           return response.body;
       });
     }

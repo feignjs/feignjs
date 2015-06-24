@@ -13,6 +13,8 @@ module feign {
 	export class JsonEncoder implements Encoder  {
 		
 		encode(body:any){
+			if (body === null || body === undefined)
+				return body;
 			return JSON.stringify(body);
 		}
 	}
@@ -20,7 +22,14 @@ module feign {
 	export class JsonDecoder implements Decoder  {
 		
 		decode(body:any){
-			return JSON.parse(body);
+			if (!body || !(typeof(body) === "string"))
+				return body;
+			try{
+				return JSON.parse(body);
+			} catch(e){
+				throw new Error("Failed to decode json: " + e);
+			}
+			
 		}
 	}
 	

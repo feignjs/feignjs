@@ -7,6 +7,20 @@ declare module feign {
     var promiseProxyFactory: (baseUrl: string, requestObj: Wrapper) => () => Promise<Response>;
 }
 declare module feign {
+    interface Decoder {
+        decode(body: any): any;
+    }
+    interface Encoder {
+        encode(body: any): any;
+    }
+    class JsonEncoder implements Encoder {
+        encode(body: any): any;
+    }
+    class JsonDecoder implements Decoder {
+        decode(body: any): any;
+    }
+}
+declare module feign {
     /**
      * a proxyfactory is a function taking the configured baseUrl and Wrapper-object
      * and return a function which will end up in the rest-client-object, defining the api and
@@ -35,6 +49,14 @@ declare module feign {
          * request to the registered FeignClient
          */
         requestInterceptor(requestInterceptor: Interceptor): IFeignBuilder;
+        /**
+         * adds body encoder. depending on the client you use, you may need to use an extra decoder/encoder
+         */
+        encoder(encoder: Encoder): IFeignBuilder;
+        /**
+         * adds body decoder. depending on the client you use, you may need to use an extra decoder/encoder
+         */
+        decoder(encoder: Decoder): IFeignBuilder;
         /**
          * sets the baseUrl and apiDescription with which the
          * client should be generated
@@ -75,7 +97,9 @@ declare module feign {
         private options;
         private client;
         private interceptors;
-        constructor(options: Options, client: any, interceptors: Interceptor[]);
+        private encoder;
+        private decoder;
+        constructor(options: Options, client: any, interceptors: Interceptor[], encoder: Encoder, decoder: Decoder);
         private getProcessedUrl(request, pathParameters);
         executeRequest(baseUrl: string, callArguments: any[]): Promise<any>;
         private processInterceptors(request);

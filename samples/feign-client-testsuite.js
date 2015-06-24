@@ -4,10 +4,10 @@ var assert = require("assert")
 var _ = require("lodash");
 var feign = require('feignjs')
 
-//var FeignClient = require('feignjs-request');
-var FeignClient = require('feignjs-jquery');
+//var client = new (require('feignjs-request'))();
+//var client = new (require('feignjs-jquery'))({defaults: {contentType: "application/json; charset=utf-8", dataType: 'json'}});
+var client = new (require('feignjs-node'))({defaults: {headers:{'Content-Type': 'application/json'}}});
 
-var client = new FeignClient();
 
 var data = require('./data');
 
@@ -86,13 +86,17 @@ var restDescription = {
 };
 
 startServer();
-var client = feign.builder()
+
+var restClient = feign.builder()
         .client(client)
+        .decoder(new feign.JsonDecoder())
+        .encoder(new feign.JsonEncoder())
         .target(restDescription, 'http://localhost:3000');
 
 function errorHandler(name){
   return function onError(err){
-    console.log("Error in " + name + ": ", err);
+    console.log("Error in " + name + ": ", err.stack);
+    
   };
 }
 
@@ -111,7 +115,7 @@ function getAssertFn(expected){
 var allPromises = []; 
 for(var m in restDescription){
   var r = restDescription[m];
-  var p = client[m].apply(client, r.parameters)
+  var p = restClient[m].apply(client, r.parameters)
   .then(getAssertFn(r.expected))
   .then(okHandler(r.method + " " + r.uri), errorHandler(m + "(" + r.uri + ")"));
   allPromises.push(p);
