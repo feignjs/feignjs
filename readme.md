@@ -11,6 +11,7 @@ Clients supported:
 * [Request](https://github.com/request/request) ([`feignjs-request`](https://github.com/feignjs/feignjs-request) module for node)
 * [JQuery](https://jquery.com/) ([`feignjs-jquery`](https://github.com/feignjs/feignjs-jquery) module for node or bower)
 * Node([`feignjs-node`](https://github.com/feignjs/feignjs-node)  module using `http`-module of node)
+* Xhr([`feignjs-xhr`](https://github.com/feignjs/feignjs-node)  module using plain xhr in browser)
  
  
 ## Installation
