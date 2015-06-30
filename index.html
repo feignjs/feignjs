@@ -37,9 +37,11 @@ for node. It is based on the java-implementation of feign <a href="https://githu
 
 <ul>
 <li>
-<a href="https://github.com/request/request">Request</a> (<code>feignjs-request</code> <a href="https://github.com/feignjs/feignjs-request">module</a> for node)</li>
+<a href="https://github.com/request/request">Request</a> (<a href="https://github.com/feignjs/feignjs-request"><code>feignjs-request</code></a> module for node)</li>
 <li>
-<a href="https://jquery.com/">JQuery</a> (<code>feignjs-jquery</code> <a href="https://github.com/feignjs/feignjs-jquery">module</a> for node or bower)</li>
+<a href="https://jquery.com/">JQuery</a> (<a href="https://github.com/feignjs/feignjs-jquery"><code>feignjs-jquery</code></a> module for node or bower)</li>
+<li>Node(<a href="https://github.com/feignjs/feignjs-node"><code>feignjs-node</code></a>  module using <code>http</code>-module of node)</li>
+<li>Xhr(<a href="https://github.com/feignjs/feignjs-node"><code>feignjs-xhr</code></a>  module using plain xhr in browser)</li>
 </ul>
 
 <h2>
@@ -146,9 +148,22 @@ client.getPosts({count<span class="pl-k">:</span> <span class="pl-c1">10</span>,
 <p>## Options:
  an option-object can be fed into feign.builder() with following options:</p>
 
-<p>| Option | Note | default
-|---|---|---|
-| promise | crate a promise-based api. false for callback-based api. | true |</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Note</th>
+<th>default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>promise</td>
+<td>crate a promise-based api. false for callback-based api.</td>
+<td>true</td>
+</tr>
+</tbody>
+</table>
 
 <h2>
 <a id="extension" class="anchor" href="#extension" aria-hidden="true"><span class="octicon octicon-link"></span></a>Extension</h2>
