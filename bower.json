@@ -1,6 +1,6 @@
 {
   "name": "feignjs",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "homepage": "http://feignjs.github.io/feignjs/",
   "description": "feign-like descriptive rest-client",
   "main": "dist/feign.web.js",

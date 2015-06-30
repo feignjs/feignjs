@@ -5,7 +5,8 @@
         <script src="bower_components/lodash/lodash.js"></script>
         <script src="bower_components/uri-templates/uri-templates.js"></script>
         <script src="../dist/feign.web.js"></script>
-        <script src="../../feignjs-jquery/dist/feign-jquery.js"></script>
+        <!--<script src="../../feignjs-jquery/dist/feign-jquery.js"></script>-->
+		<script src="../../feignjs-xhr/dist/feign-xhr.js"></script>
 		<script>
 			
 
@@ -13,13 +14,15 @@
 			  getUsers: 'GET /users'
 			};
 			
-			var client = feign.builder().client(new FeignJquery())
+			var client = feign.builder()
+					.client(new FeignXhr())
+					.decoder(new feign.JsonDecoder())
 				.target(restDescription, 'http://jsonplaceholder.typicode.com');	
 			
 			client.getUsers().then(function(r){
 				console.log(r);
 			}, function(e){
-				console.error("Error: " + e);
+				console.log("Error: ", e.stack);
 			});
 		</script>
 	</head>
