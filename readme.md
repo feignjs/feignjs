@@ -5,9 +5,21 @@ for node. It is based on the java-implementation of feign [from netflix](https:/
 `Remark:` this library is not affiliated to netflix
 
 ## Overview
-Feign.js  allows to define a rest-client api and staying independent of a specific client-implementation.
+Feign.js  allows to define a rest-client api and staying independent of a specific client-implementation. 
+It tries to solve three issues:
 
-Clients supported:
+First point is to have a **central location** where you define all api-calls of a client,
+parameters, headers and so on, so in your business-code, you just call the generated 
+function. 
+
+Second point is to stay **independent** of a client (e.g. you can later switch to 
+another one that supports a feature you may need). 
+
+Third point is that you can now start implementing **unforseen requirements** like 
+resilience (e.g. using a circuitBreaker) later on without changing your application 
+at all (this feature is planned for later versions though).
+
+Currently, following clients are supported:
 * [Request](https://github.com/request/request) ([`feignjs-request`](https://github.com/feignjs/feignjs-request) module for node)
 * [JQuery](https://jquery.com/) ([`feignjs-jquery`](https://github.com/feignjs/feignjs-jquery) module for node or bower)
 * Node([`feignjs-node`](https://github.com/feignjs/feignjs-node)  module using `http`-module of node)
