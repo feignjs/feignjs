@@ -5,7 +5,7 @@
     <title>Feignjs by feignjs</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
@@ -31,9 +31,21 @@ for node. It is based on the java-implementation of feign <a href="https://githu
 <h2>
 <a id="overview" class="anchor" href="#overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h2>
 
-<p>Feign.js  allows to define a rest-client api and staying independent of a specific client-implementation.</p>
+<p>Feign.js  allows to define a rest-client api and staying independent of a specific client-implementation. 
+It tries to solve three issues:</p>
 
-<p>Clients supported:</p>
+<p>First point is to have a <strong>central location</strong> where you define all api-calls of a client,
+parameters, headers and so on, so in your business-code, you just call the generated 
+function. </p>
+
+<p>Second point is to stay <strong>independent</strong> of a client (e.g. you can later switch to 
+another one that supports a feature you may need). </p>
+
+<p>Third point is that you can now start implementing <strong>unforseen requirements</strong> like 
+resilience (e.g. using a circuitBreaker) later on without changing your application 
+at all (this feature is planned for later versions though).</p>
+
+<p>Currently, following clients are supported:</p>
 
 <ul>
 <li>
@@ -196,4 +208,3 @@ client.getPosts({count<span class="pl-k">:</span> <span class="pl-c1">10</span>,
 
   </body>
 </html>
-
