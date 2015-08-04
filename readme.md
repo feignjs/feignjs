@@ -25,6 +25,12 @@ Currently, following clients are supported:
 * Node([`feignjs-node`](https://github.com/feignjs/feignjs-node)  module using `http`-module of node)
 * Xhr([`feignjs-xhr`](https://github.com/feignjs/feignjs-node)  module using plain xhr in browser)
  
+
+## Changelog
+
+* **0.0.5** browserified apps can now use feignjs, updated uri-template-dependency for transitivity
+* **0.0.4** first public release
+
  
 ## Installation
 You need to install both feignjs and a client to be used for feign.
