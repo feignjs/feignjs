@@ -1,0 +1,20 @@
+{
+  "name": "simple-xhr-sample",
+  "version": "0.0.4",
+  "homepage": "https://github.com/feignjs/feignjs",
+  "authors": [
+    "pmucha <peter.mucha@affinitas.de>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "feignjs": "0.0.5",
+    "feignjs-jquery": "0.0.5"
+  }
+}

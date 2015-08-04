@@ -16,7 +16,7 @@
   "dependencies": {
     "args-js": "^0.10.6",
     "lodash": "^3.9.3",
-    "uri-templates": "^0.1.7"
+    "uri-templates": "https://github.com/feignjs/uri-templates.git#v0.1.7"
   },
   "authors": [
     "Peter Mucha"

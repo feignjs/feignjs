@@ -1,0 +1,20 @@
+{
+  "name": "github-browser-sample",
+  "version": "0.0.4",
+  "homepage": "https://github.com/feignjs/feignjs",
+  "authors": [
+    "pmucha <peter.mucha@affinitas.de>"
+  ],
+  "dependencies": {
+    "feignjs": "0.0.5",
+    "feignjs-jquery": "0.0.5"
+  },
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

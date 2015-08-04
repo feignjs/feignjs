@@ -1,0 +1,37 @@
+<html>
+	<head>
+		<script src="bower_components/args-js/dist/Args.js"></script>
+        <script src="bower_components/lodash/lodash.js"></script>
+        <script src="bower_components/uri-templates/uri-templates.js"></script>
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        
+        
+		<script src="bower_components/feignjs/dist/feign.web.js"></script>
+		<script src="bower_components/feignjs-jquery/dist/feign-jquery.js"></script>
+		<script src="index.js"></script>
+	</head>
+	<body>
+		<div>
+			<h3>Show repositories of user</h3>
+			<label for="user">username:</label><input id="user" placeholder="github username"/> <button id="showRepos">Show</button>
+			<div id="repositories">
+			</div>	
+		</div>
+		
+		<div>
+			<h3>Show commits of a repo</h3>
+			<label for="cuser">username:</label>
+			<input id="cuser" placeholder="github username"/> <br />
+			<label for="repo">repo name:</label>
+			<input id="repo" placeholder="repo name"/> <br />
+			<label for="sha">sha:</label>
+			<input id="sha" placeholder="tree-ish commit or empty"/> <br />
+			
+			<button id="showCommits">Show</button>
+			<div id="commits">
+			</div>	
+		</div>
+		
+		
+	</body>
+</html>
