@@ -11,7 +11,7 @@
 			
 
 			var restDescription = {
-			  getUsers: 'GET /users'
+			  getUsers: 'GET /users/{id}'
 			};
 			
 			var client = feign.builder()
@@ -19,7 +19,7 @@
 					.decoder(new feign.JsonDecoder())
 				.target(restDescription, 'http://jsonplaceholder.typicode.com');	
 			
-			client.getUsers().then(function(r){
+			client.getUsers({id:1}).then(function(r){
 				console.log(r);
 			}, function(e){
 				console.log("Error: ", e.stack);

@@ -16,7 +16,6 @@
   "dependencies": {
     "args-js": "~0.10.5",
     "lodash": "~3.9.3",
-    "uri-templates": "~0.1.5",
     "jquery": "~2.1.4"
   }
 }
