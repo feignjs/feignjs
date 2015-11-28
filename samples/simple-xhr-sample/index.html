@@ -4,9 +4,9 @@
 		<script src="bower_components/jquery/dist/jquery.js"></script>
         <script src="bower_components/lodash/lodash.js"></script>
         <script src="bower_components/uri-templates/uri-templates.js"></script>
-        <script src="bower_components/feignjs/dist/feign.web.js"></script>
-        <!--<script src="../../feignjs-jquery/dist/feign-jquery.js"></script>-->
-		<script src="bower_components/feignjs-xhr/dist/feign-xhr.js"></script>
+        <script src="../dist/feign.web.js"></script>
+        <script src="../../feignjs-jquery/dist/feign-jquery.js"></script>
+		<!--<script src="../../feignjs-xhr/dist/feign-xhr.js"></script>-->
 		<script>
 			
 
@@ -15,11 +15,10 @@
 			};
 			
 			var client = feign.builder()
-					.client(new FeignXhr())
+					.client(new FeignJquery())
 					.decoder(new feign.JsonDecoder())
 				.target(restDescription, 'http://jsonplaceholder.typicode.com');	
-			
-			client.getUsers({id:1}).then(function(r){
+			client.getUsers({id: 1}).then(function(r){
 				console.log(r);
 			}, function(e){
 				console.log("Error: ", e.stack);

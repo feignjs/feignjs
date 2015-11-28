@@ -44,7 +44,7 @@ module feign {
   export class Wrapper {
     
     
-    constructor(private options: Options,
+    constructor(public options: Options,
                 private client, 
                 private interceptors: Interceptor[],
                 private encoder: Encoder,

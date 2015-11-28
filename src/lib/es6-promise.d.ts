@@ -37,6 +37,7 @@ declare class Promise<R> implements Thenable<R> {
 	 * @param onRejected called when/if "promise" rejects
 	 */
 	catch<U>(onRejected?: (error: any) => U | Thenable<U>): Promise<U>;
+
 }
 
 declare module Promise {
@@ -62,6 +63,7 @@ declare module Promise {
 	 * Make a Promise that fulfills when any item fulfills, and rejects if any item rejects.
 	 */
 	function race<R>(promises: (R | Thenable<R>)[]): Promise<R>;
+	
 }
 
 declare module 'es6-promise' {

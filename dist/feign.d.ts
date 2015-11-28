@@ -94,7 +94,7 @@ declare module feign {
         apply(description: RequestDescription): void;
     }
     class Wrapper {
-        private options;
+        options: Options;
         private client;
         private interceptors;
         private encoder;

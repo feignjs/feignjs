@@ -128,7 +128,10 @@ var feign;
                     { method: Args.STRING | Args.Optional, _default: 'GET' },
                     { uri: Args.STRING | Args.Required }
                 ], [options]);
-                options = { method: parsedOptions.method, uri: parsedOptions.uri };
+                //allows to pass on other stuff, e.g. fallback for circuitBreaker
+                options = _.clone(apiDescription[key]);
+                options.method = parsedOptions.method;
+                options.uri = parsedOptions.uri;
             }
             return options;
         };
