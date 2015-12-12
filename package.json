@@ -1,6 +1,6 @@
 {
   "name": "feignjs",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "feign for js",
   "main": "dist/feign.js",
   "scripts": {
@@ -8,7 +8,6 @@
     "compile": "npm run tsc && npm run browserify && npm run uglify",
     "test-plain": "node_modules/.bin/nodeunit tests",
     "test-cov": "node_modules/.bin/istanbul cover testsuite.js && cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js",
-    
     "tsc": "node_modules/.bin/tsc -d --out dist/feign.js --module commonjs",
     "browserify": "node_modules/.bin/browserify dist/feign.js -o dist/feign.web.js --s feign --no-bundle-external -t browserify-shim",
     "uglify": "node_modules/.bin/uglifyjs dist/feign.web.js -o dist/feign.web.min.js",
@@ -23,7 +22,7 @@
     "rest",
     "descriptive",
     "client"
-  ],  
+  ],
   "browserify-shim": {
     "args-js": "global:Args",
     "lodash": "global:_",
