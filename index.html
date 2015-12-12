@@ -61,6 +61,8 @@ at all (this feature is planned for later versions though).</p>
 
 <ul>
 <li>
+<strong>0.0.6</strong> changes for supporting feignjs-circuit-breaker</li>
+<li>
 <strong>0.0.5</strong> browserified apps can now use feignjs, updated uri-template-dependency for transitivity</li>
 <li>
 <strong>0.0.4</strong> first public release</li>
@@ -93,27 +95,25 @@ bower install feignjs-&lt;client&gt;
 <li>flexible parameters: can be named or unnamed. (<code>client.getUser(1)</code> or <code>client.getUser({id:1})</code>)</li>
 </ul>
 </li>
+<li>circuit breaker support (see <a href="https://github.com/feignjs/feignjs-circuit-breaker">feignjs-circuit-breaker</a>) 
+## Getting started
+Similar to <a href="https://github.com/Netflix/feign">Feign</a>, the api will be described 
+declaratively and then reflectively instantiated.</li>
 </ul>
 
-<h2>
-<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting started</h2>
-
-<p>Similar to <a href="https://github.com/Netflix/feign">Feign</a>, the api will be described 
-declaratively and then reflectively instantiated.</p>
-
-<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> apiDescription <span class="pl-k">=</span> {
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> apiDescription <span class="pl-k">=</span> {
   getUsers<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>GET /users<span class="pl-pds">'</span></span>,
   getUser<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>GET /users/{id}<span class="pl-pds">'</span></span>,
   createPost<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>POST /posts<span class="pl-pds">'</span></span>,
   modifyPost<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>PUT /posts/{id}<span class="pl-pds">'</span></span>,
 };
 
-<span class="pl-k">var</span> client <span class="pl-k">=</span> feign.builder()
-        .client(<span class="pl-k">new</span> <span class="pl-en">FeignRequest</span>())        
+<span class="pl-k">var</span> client <span class="pl-k">=</span> <span class="pl-smi">feign</span>.<span class="pl-en">builder</span>()
+        .<span class="pl-en">client</span>(<span class="pl-k">new</span> <span class="pl-en">FeignRequest</span>())        
         .<span class="pl-c1">target</span>(apiDescription, <span class="pl-s"><span class="pl-pds">'</span>http://jsonplaceholder.typicode.com<span class="pl-pds">'</span></span>);
 
 
-client.modifyPost(<span class="pl-c1">1</span>, {content<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>new text<span class="pl-pds">'</span></span>}).then(<span class="pl-en">console</span><span class="pl-c1">.log</span>)</pre></div>
+<span class="pl-smi">client</span>.<span class="pl-en">modifyPost</span>(<span class="pl-c1">1</span>, {content<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>new text<span class="pl-pds">'</span></span>}).<span class="pl-en">then</span>(<span class="pl-en">console</span>.<span class="pl-smi">log</span>)</pre></div>
 
 <p>see more examples in the <a href="samples">samples-folder</a></p>
 
@@ -123,7 +123,7 @@ client.modifyPost(<span class="pl-c1">1</span>, {content<span class="pl-k">:</sp
 <p>The description of clients is mostly intuitive. it can be given as plain string or object.
  The format supports uri-templates based on (<a href="https://tools.ietf.org/html/rfc6570">rfc6570</a>), so you can even use more complicate formats:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> apiDescription <span class="pl-k">=</span> {
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> apiDescription <span class="pl-k">=</span> {
   getUsers<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>GET /users<span class="pl-pds">'</span></span>,
   getUser<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>GET /users/{id}<span class="pl-pds">'</span></span>,
   getPosts<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>POST /posts{?count,order}<span class="pl-pds">'</span></span>,
@@ -153,18 +153,18 @@ path-parameters means here all parameters that are used in the uri-template.</li
 
 <p>Some examples:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-c">//GET /users/{id}</span>
-client.getUser(<span class="pl-c1">1</span>)
-client.getUser({id<span class="pl-k">:</span> <span class="pl-c1">1</span>})
+<div class="highlight highlight-source-js"><pre><span class="pl-c">//GET /users/{id}</span>
+<span class="pl-smi">client</span>.<span class="pl-en">getUser</span>(<span class="pl-c1">1</span>)
+<span class="pl-smi">client</span>.<span class="pl-en">getUser</span>({id<span class="pl-k">:</span> <span class="pl-c1">1</span>})
 
 <span class="pl-c">//PUT /posts/{id}</span>
-client.modifyPost(<span class="pl-c1">1</span>, newPost);
-client.modifyPost({id<span class="pl-k">:</span> <span class="pl-c1">1</span>}, newPost);
+<span class="pl-smi">client</span>.<span class="pl-en">modifyPost</span>(<span class="pl-c1">1</span>, newPost);
+<span class="pl-smi">client</span>.<span class="pl-en">modifyPost</span>({id<span class="pl-k">:</span> <span class="pl-c1">1</span>}, newPost);
 <span class="pl-c">//or if you configured callbacks:</span>
-client.modifyPost({id<span class="pl-k">:</span> <span class="pl-c1">1</span>}, newPost, onResult);
+<span class="pl-smi">client</span>.<span class="pl-en">modifyPost</span>({id<span class="pl-k">:</span> <span class="pl-c1">1</span>}, newPost, onResult);
 
 <span class="pl-c">//POST /posts{?count,order}</span>
-client.getPosts({count<span class="pl-k">:</span> <span class="pl-c1">10</span>, order<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>ASC<span class="pl-pds">'</span></span>});
+<span class="pl-smi">client</span>.<span class="pl-en">getPosts</span>({count<span class="pl-k">:</span> <span class="pl-c1">10</span>, order<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>ASC<span class="pl-pds">'</span></span>});
 </pre></div>
 
 <p>## Options:
