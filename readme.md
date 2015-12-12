@@ -27,7 +27,7 @@ Currently, following clients are supported:
  
 
 ## Changelog
-
+* **0.0.6** changes for supporting feignjs-circuit-breaker
 * **0.0.5** browserified apps can now use feignjs, updated uri-template-dependency for transitivity
 * **0.0.4** first public release
 
