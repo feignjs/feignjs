@@ -52,7 +52,7 @@ bower install feignjs-<client>
 * very flexible api:
  * promise or callback style, however you want it
  * flexible parameters: can be named or unnamed. (`client.getUser(1)` or `client.getUser({id:1})`)
- 
+* circuit breaker support (see [feignjs-circuit-breaker](https://github.com/feignjs/feignjs-circuit-breaker)) 
 ## Getting started
 Similar to [Feign](https://github.com/Netflix/feign), the api will be described 
 declaratively and then reflectively instantiated.
