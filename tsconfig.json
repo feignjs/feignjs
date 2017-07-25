@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"target": "ES5",
-		"module": "commonjs",
+		"module": "amd",
 		"sourceMap": true
 	},
 	"files": [
@@ -10,8 +10,8 @@
 		"src/dencoder.ts",
 		"src/feign.ts",
 		"src/request.ts",
-		"src/~bootstrap.ts"		
+		"src/~bootstrap.ts"
 	]
-	
-	
+
+
 }
